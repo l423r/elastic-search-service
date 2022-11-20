@@ -1,0 +1,25 @@
+server:
+  port: 8085
+  shutdown: graceful
+  servlet:
+    context-path: /elastic-search
+management:
+  endpoints:
+    web:
+      exposure:
+        include: httptrace,loggers,health,info,metrics,prometheus
+  endpoint:
+    loggers:
+      enabled: true
+app:
+  #  url: ${APP_URL:http://localhost:8079/gateway${server.servlet.context-path}}
+  url: ${APP_URL:http://localhost:8085${server.servlet.context-path}}
+
+springdoc:
+  packagesToScan: ru.maaax.elasticsearchservice
+  pathsToMatch: /**
+  swagger-ui:
+    enabled: true
+    disable-swagger-default-url: true
+    configUrl: ${app.url}/v3/api-docs/swagger-config
+    url: ${app.url}/v3/api-docs
