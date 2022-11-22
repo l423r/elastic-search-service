@@ -13,15 +13,27 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - esdata1:/usr/share/elasticsearch/data
+      - esdata:/usr/share/elasticsearch/data
     ports:
-      - 9200:9200
+      - "172.17.0.1:9200:9200"
     networks:
-      - esnet
+      - elastic-search-service
+    restart: unless-stopped
+  app:
+    image: 'docker.pkg.github.com/l423r/elastic-search-service/elastic-search-service:latest'
+    container_name: elastic-search-service
+    ports:
+      - "172.17.0.1:8085:8085"
+    environment:
+      - APP_URL=$APP_URL
+    networks:
+      - elastic-search-service
+    restart: unless-stopped
       
 volumes:
-  esdata1:
+  esdata:
     driver: local
 
 networks:
-  esnet:
+  elastic-search-service:
+    driver: bridge

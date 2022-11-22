@@ -9,9 +9,6 @@ import ru.maaax.elasticsearchservice.entity.Product;
 
 public interface ProductRepository extends ElasticsearchRepository<Product, String> {
 
-    Page<Product> findByNameAndDescription(String name, String description, Pageable pageable);
-    Page<Product> findByNameContainsOrDescriptionContains(String name, String description, Pageable pageable);
-
     @Query("{\"bool\": {\"must\": [{\"match\": {\"authors.name\": \"?0\"}}]}}")
     Page<Product> findByAuthorsNameUsingCustomQuery(String name, Pageable pageable);
     @Query("{\"multi_match\": {\"query\": \"?0\", \"fields\": [\"name\"], \"fuzziness\": \"AUTO\"}}")

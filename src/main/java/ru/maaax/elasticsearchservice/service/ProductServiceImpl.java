@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.maaax.elasticsearchservice.dto.ProductDtoRequest;
+import ru.maaax.elasticsearchservice.dto.ProductDto;
 import ru.maaax.elasticsearchservice.entity.Product;
 import ru.maaax.elasticsearchservice.repository.ProductRepository;
 
@@ -18,16 +18,15 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public Product save(final ProductDtoRequest productDtoRequest) {
+    public Product save(final ProductDto productDto) {
         final Product product = new Product();
-        product.setId(productDtoRequest.getId());
-        product.setName(productDtoRequest.getName());
-        product.setDescription(productDtoRequest.getDescription());
+        product.setId(productDto.getId());
+        product.setName(productDto.getName());
         return productRepository.save(product);
     }
 
     @Override
-    public Iterable<Product> saveAll(final Iterable<ProductDtoRequest> products) {
+    public Iterable<Product> saveAll(final Iterable<ProductDto> products) {
         return StreamSupport.stream(products.spliterator(), false).map(this::save).collect(Collectors.toList());
     }
 
@@ -47,8 +46,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Iterable<Product> findAll() {
-        return productRepository.findAll();
+    public Page<Product> findAll(final Pageable pageRequest) {
+        return productRepository.findAll(pageRequest);
     }
 
     @Override
@@ -56,13 +55,4 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findByName(name, pageRequest);
     }
 
-    @Override
-    public Page<Product> findByNameAndDescription(final String name, final String description, final Pageable pageRequest) {
-        return productRepository.findByNameAndDescription(name, description, pageRequest);
-    }
-
-    @Override
-    public Page<Product> findByNameOrDescription(final String name, final String description, final Pageable pageRequest) {
-        return productRepository.findByNameContainsOrDescriptionContains(name, description, pageRequest);
-    }
 }
