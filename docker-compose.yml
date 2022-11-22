@@ -7,6 +7,7 @@ services:
       - "8085:8085"
     environment:
       - APP_URL=$APP_URL
+      - ELASTIC_URL=$ELASTIC_URL
     networks:
       - es
     restart: unless-stopped
@@ -36,3 +37,4 @@ volumes:
 
 networks:
   es:
+    driver: bridge
