@@ -1,3 +1,6 @@
+spring:
+  elasticsearch:
+    uris: http://172.17.0.1:9200
 server:
   port: 8085
   shutdown: graceful
@@ -23,6 +26,3 @@ springdoc:
     disable-swagger-default-url: true
     configUrl: ${app.url}/v3/api-docs/swagger-config
     url: ${app.url}/v3/api-docs
-logging:
-  level:
-    root: DEBUG

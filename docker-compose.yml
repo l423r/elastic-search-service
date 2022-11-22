@@ -1,11 +1,22 @@
-version: '2.2'
+version: '3.9'
 services:
+  elastic-search-service:
+    build: .
+    container_name: elastic-search-service
+    ports:
+      - "8085:8085"
+    environment:
+      - APP_URL=$APP_URL
+    networks:
+      - es
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+
   elasticsearch:
-    image: elasticsearch:7.6.2
+    image: elasticsearch:7.11.1
     container_name: elasticsearch
     environment:
- #     - cluster.name=docker-cluster
-    #  - bootstrap.memory_lock=true
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
@@ -15,25 +26,13 @@ services:
     volumes:
       - esdata:/usr/share/elasticsearch/data
     ports:
-      - "172.17.0.1:9200:9200"
+      - "9200:9200"
     networks:
-      - elastic-search-service
-    restart: unless-stopped
-  app:
-    image: 'docker.pkg.github.com/l423r/elastic-search-service/elastic-search-service:latest'
-    container_name: elastic-search-service
-    ports:
-      - "172.17.0.1:8085:8085"
-    environment:
-      - APP_URL=$APP_URL
-    networks:
-      - elastic-search-service
+      - es
     restart: unless-stopped
       
 volumes:
   esdata:
-    driver: local
 
 networks:
-  elastic-search-service:
-    driver: bridge
+  es:
