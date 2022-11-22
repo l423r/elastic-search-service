@@ -16,7 +16,7 @@ public class ElasticConfig {
     @Bean
     public ElasticsearchTransport client() {
         RestClient httpClient = RestClient.builder(
-                new HttpHost("localhost", 9200)
+                new HttpHost("172.17.0.1", 9200)
         ).build();
 // Create the Java API Client with the same low level client
 
