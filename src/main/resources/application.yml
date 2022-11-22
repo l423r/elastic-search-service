@@ -1,6 +1,6 @@
 spring:
   elasticsearch:
-    uris: http://172.17.0.1:9200
+    uris: http://80.87.201.75:9200
 server:
   port: 8085
   shutdown: graceful
