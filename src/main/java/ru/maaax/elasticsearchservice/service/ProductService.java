@@ -15,6 +15,8 @@ public interface ProductService {
 
     void deleteAll();
 
+    void deleteById(String id);
+
     Product findOne(String id);
 
     Page<Product> findAll(Pageable pageRequest);

@@ -1,6 +1,7 @@
 package ru.maaax.elasticsearchservice.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.stream.StreamSupport;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
@@ -22,7 +24,9 @@ public class ProductServiceImpl implements ProductService {
         final Product product = new Product();
         product.setId(productDto.getId());
         product.setName(productDto.getName());
-        return productRepository.save(product);
+        final Product saved = productRepository.save(product);
+        log.info("Добавлен продукт {}", saved.getId());
+        return saved;
     }
 
     @Override
@@ -38,6 +42,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteAll() {
         productRepository.deleteAll();
+    }
+
+    @Override
+    public void deleteById(final String id) {
+        productRepository.deleteById(id);
+        log.info("Удален продукт {}", id);
     }
 
     @Override
