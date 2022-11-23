@@ -21,4 +21,5 @@ public interface ProductService {
 
     Page<Product> findByName(String name, Pageable pageRequest);
 
+    Long getCount();
 }

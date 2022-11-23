@@ -1,5 +1,6 @@
 package ru.maaax.elasticsearchservice.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController()
 @RequestMapping("/product")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class ProductController {
     private final ProductService productService;
 
@@ -26,6 +28,11 @@ public class ProductController {
                                 Pageable pageable) {
 
         return productService.findByName(search, pageable);
+    }
+
+    @GetMapping("/count")
+    public Long count() {
+        return productService.getCount();
     }
 
     @GetMapping("/find/all")

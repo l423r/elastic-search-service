@@ -55,4 +55,9 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findByName(name, pageRequest);
     }
 
+    @Override
+    public Long getCount() {
+        return productRepository.count();
+    }
+
 }

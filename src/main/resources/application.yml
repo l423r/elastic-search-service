@@ -1,6 +1,6 @@
 spring:
   elasticsearch:
-    uris: ${ELASTIC_URL:http://172.17.0.1:9200}
+    uris: ${ELASTIC_URL:http://localhost:9200}
 server:
   port: 8085
   shutdown: graceful
